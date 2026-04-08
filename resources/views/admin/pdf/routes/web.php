@@ -162,11 +162,11 @@ Route::middleware(['auth'])->group(function () {
         */
 
         Route::get('/studi-kasus2-table', function () {
-            return view('admin.barang.studi-kasus2-table');
+            return view('barang.studi-kasus2-table');
         });
 
         Route::get('/studi-kasus4', function () {
-            return view('admin.barang.studi-kasus4');
+            return view('barang.studi-kasus4');
         })->name('studi.kasus4');
 
 

@@ -16,6 +16,11 @@ return Application::configure(basePath: dirname(__DIR__))
             'midtrans/callback',
         ]);
 
+        // REGISTER ROLE MIDDLEWARE
+        $middleware->alias([
+            'role' => \App\Http\Middleware\RoleMiddleware::class,
+        ]);
+
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

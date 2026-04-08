@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
+
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -12,19 +13,23 @@ class LoginController extends Controller
     use AuthenticatesUsers;
 
     /**
-     * Redirect setelah login
+     * Default redirect (tidak terlalu dipakai karena ada OTP)
      */
-    protected $redirectTo = '/dashboard';
+    protected $redirectTo = '/home';
 
     /**
      * Create a new controller instance.
      */
     public function __construct()
     {
-        // Hanya guest yang boleh akses login
+        // hanya guest boleh akses login
         $this->middleware('guest')->except('logout');
     }
 
+    /**
+     * Setelah login berhasil
+     * generate OTP lalu kirim email
+     */
     protected function authenticated(Request $request, $user)
     {
         $otp = rand(100000, 999999);
@@ -34,7 +39,7 @@ class LoginController extends Controller
 
         Mail::to($user->email)->send(new OtpMail($otp));
 
+        // redirect ke halaman input OTP
         return redirect()->route('otp.form');
     }
-
 }

@@ -15,17 +15,20 @@ class VendorDashboardController extends Controller
             ->where('iduser', Auth::id())
             ->first();
 
+        //jumlah menu vendor
         $totalMenu = DB::table('menu')
             ->where('idvendor',$vendor->idvendor)
             ->count();
 
+        //jumlah transaksi unik
         $totalOrder = DB::table('pesanan')
             ->join('detail_pesanan','pesanan.idpesanan','=','detail_pesanan.idpesanan')
             ->join('menu','menu.idmenu','=','detail_pesanan.idmenu')
             ->where('menu.idvendor',$vendor->idvendor)
             ->distinct('pesanan.idpesanan')
             ->count();
-        
+
+        //menu terlaris
         $menuTerlaris = DB::table('detail_pesanan')
             ->join('menu','menu.idmenu','=','detail_pesanan.idmenu')
             ->where('menu.idvendor',$vendor->idvendor)
@@ -33,16 +36,19 @@ class VendorDashboardController extends Controller
                 'menu.nama_menu',
                 DB::raw('SUM(detail_pesanan.jumlah) as total_terjual')
             )
+            //top 5 menu
             ->groupBy('menu.nama_menu')
             ->orderByDesc('total_terjual')
             ->limit(5)
             ->get();
 
+        //total uang masuk
         $totalPendapatan = DB::table('detail_pesanan')
             ->join('menu','menu.idmenu','=','detail_pesanan.idmenu')
             ->where('menu.idvendor',$vendor->idvendor)
             ->sum('detail_pesanan.subtotal');
 
+        //filter hari ini
         $penjualanHariIni = DB::table('detail_pesanan')
             ->join('menu','menu.idmenu','=','detail_pesanan.idmenu')
             ->join('pesanan','pesanan.idpesanan','=','detail_pesanan.idpesanan')

@@ -13,8 +13,8 @@ class WeekEmpat extends Controller
         return view('admin.week4.index');
     }
 
-    public function submit(Request $req){
-
+    public function submit(Request $req)
+    {
         $data = $req->post('name');
 
         return response()->json([
@@ -23,14 +23,22 @@ class WeekEmpat extends Controller
             'message' => 'Data received successfully',
             'data' => [
                 'name' => $data
-    ]
+            ]
         ]);
     }
 
-        public function wilayah()
+    public function wilayah()
     {
         $provinces = DB::table('provinces')->get();
+
         return view('admin.week4.wilayah', compact('provinces'));
+    }
+
+    public function wilayahAxios()
+    {
+        $provinces = DB::table('provinces')->get();
+
+        return view('admin.week4.wilayah_axios', compact('provinces'));
     }
 
     public function getCities(Request $request)
@@ -41,6 +49,7 @@ class WeekEmpat extends Controller
 
         return response()->json($cities);
     }
+
     public function getDistricts(Request $request)
     {
         $districts = DB::table('districts')
@@ -50,14 +59,14 @@ class WeekEmpat extends Controller
         return response()->json($districts);
     }
 
-public function getVillages(Request $request)
-{
-    $villages = DB::table('villages')
-        ->where('district_id', $request->district_id)
-        ->get();
+    public function getVillages(Request $request)
+    {
+        $villages = DB::table('villages')
+            ->where('district_id', $request->district_id)
+            ->get();
 
-    return response()->json($villages);
-}
+        return response()->json($villages);
+    }
 
     public function pos()
     {
@@ -66,41 +75,41 @@ public function getVillages(Request $request)
         return view('admin.week4.pos', compact('barang'));
     }
 
+    public function posAxios()
+    {
+        $barang = DB::table('barang')->get();
+
+        return view('admin.week4.posAxios', compact('barang'));
+    }
+
     public function findBarang(Request $request)
     {
         $barang = DB::table('barang')
             ->where('id_barang', $request->kode)
             ->first();
 
-        if($barang){
-
+        if ($barang) {
             return response()->json([
                 'status' => 'success',
                 'data' => $barang
             ]);
-
         } else {
-
             return response()->json([
                 'status' => 'error',
                 'message' => 'Barang tidak ditemukan'
             ]);
-
         }
     }
 
-
     public function bayar(Request $request)
     {
-
         $penjualan = DB::table('penjualan')->insertGetId([
             'total' => $request->total,
             'created_at' => now(),
             'updated_at' => now()
         ]);
 
-        foreach($request->items as $item){
-
+        foreach ($request->items as $item) {
             DB::table('penjualan_detail')->insert([
                 'penjualan_id' => $penjualan,
                 'kode_barang' => $item['kode'],
@@ -109,14 +118,12 @@ public function getVillages(Request $request)
                 'jumlah' => $item['jumlah'],
                 'subtotal' => $item['subtotal']
             ]);
-
         }
 
         return response()->json([
             'status' => 'success',
             'message' => 'Transaksi berhasil disimpan'
         ]);
-
     }
 
     public function searchBarang(Request $request)
@@ -124,13 +131,11 @@ public function getVillages(Request $request)
         $keyword = $request->keyword;
 
         $barang = DB::table('barang')
-            ->where('id_barang','like',"%$keyword%")
-            ->orWhere('nama','like',"%$keyword%")
+            ->where('id_barang', 'like', "%$keyword%")
+            ->orWhere('nama', 'like', "%$keyword%")
             ->limit(10)
             ->get();
 
         return response()->json($barang);
     }
-
-
 }

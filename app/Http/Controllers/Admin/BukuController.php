@@ -9,6 +9,7 @@ class BukuController extends Controller
 {
     public function index()
     {
+        //Eager loading digunakan untuk menghindari query berulang saat mengambil data buku beserta kategori
         $buku = Buku::with('kategori')->get();
         return view('admin.buku.index', compact('buku'));
     }
@@ -33,7 +34,7 @@ class BukuController extends Controller
 
     public function edit($id)
     {
-        $buku = Buku::findOrFail($id);
+        $buku = Buku::findOrFail($id); //kalau tidak ditemukan → error 404
         $kategori = Kategori::all();
 
         return view('admin.buku.edit', compact('buku', 'kategori'));

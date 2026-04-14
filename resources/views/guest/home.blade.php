@@ -205,15 +205,23 @@
         <div class="nav-inner">
             <div class="brand">Fishy<span>Paperie</span></div>
             <nav class="links">
+
                 <a href="/home">Home</a>
+                <a href="/order">Order</a>
+
+                @auth
+                    <a href="{{ route('order.history') }}">Riwayat Pesanan</a>
+
+                    <form action="{{ route('logout') }}" method="POST" style="display:inline;">
+                        @csrf
+                        <button class="btn" type="submit">Logout</button>
+                    </form>
+                @endauth
 
                 @guest
                     <a class="btn" href="{{ route('login') }}">Login</a>
                 @endguest
 
-                @auth
-                   <a class="btn" href="{{ route('login') }}">Login</a>
-                @endauth
             </nav>
         </div>
     </header>

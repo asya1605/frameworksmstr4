@@ -3,169 +3,174 @@
 @section('title', 'Data Transaksi')
 
 @section('style')
+
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 
-body, .vendor-content { font-family: 'Plus Jakarta Sans', sans-serif; }
+body,
+.vendor-content {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
 
 /* HEADER */
-.page-header{
-display:flex;
-align-items:center;
-justify-content:space-between;
-margin-bottom:22px;
+.page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 22px;
 }
 
-.page-title{
-font-size:1.2rem;
-font-weight:700;
-color:var(--vp-deeper);
-margin:0;
-display:flex;
-align-items:center;
-gap:10px;
+.page-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--vp-deeper);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-.page-title-pill{
-width:5px;
-height:26px;
-background:var(--vp-main);
-border-radius:4px;
+.page-title-pill {
+    width: 5px;
+    height: 26px;
+    background: var(--vp-main);
+    border-radius: 4px;
 }
 
 /* TOOLBAR */
-.menu-toolbar{
-display:flex;
-align-items:center;
-gap:10px;
-margin-bottom:16px;
-flex-wrap:wrap;
+.menu-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
 }
 
-.search-wrap{
-position:relative;
-flex:1;
-max-width:300px;
+.search-wrap {
+    position: relative;
+    flex: 1;
+    max-width: 300px;
 }
 
-.search-wrap .search-icon{
-position:absolute;
-left:10px;
-top:50%;
-transform:translateY(-50%);
-color:#9ca3af;
-font-size:14px;
+.search-wrap .search-icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9ca3af;
+    font-size: 14px;
 }
 
-.search-wrap input{
-width:100%;
-padding:7px 10px 7px 32px;
-border:1px solid #e5e1f8;
-border-radius:8px;
-font-size:12px;
-font-family:inherit;
-outline:none;
+.search-wrap input {
+    width: 100%;
+    padding: 7px 10px 7px 32px;
+    border: 1px solid #e5e1f8;
+    border-radius: 8px;
+    font-size: 12px;
+    font-family: inherit;
+    outline: none;
 }
 
-.search-wrap input:focus{
-border-color:#afa9ec;
+.search-wrap input:focus {
+    border-color: #afa9ec;
 }
 
 /* TABLE CARD */
-.table-card{
-background:#fff;
-border:1px solid #e5e1f8;
-border-radius:14px;
-overflow:hidden;
+.table-card {
+    background: #fff;
+    border: 1px solid #e5e1f8;
+    border-radius: 14px;
+    overflow: hidden;
 }
 
-.menu-table{
-width:100%;
-border-collapse:collapse;
-margin-bottom:0;
+.menu-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 0;
 }
 
-.menu-table thead tr{
-background:#f8f7ff;
+.menu-table thead tr {
+    background: #f8f7ff;
 }
 
-.menu-table th{
-padding:11px 16px;
-font-size:11px;
-font-weight:700;
-color:#9ca3af;
-text-transform:uppercase;
-letter-spacing:0.6px;
-text-align:left;
-border-bottom:1px solid #e5e1f8;
+.menu-table th {
+    padding: 11px 16px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #9ca3af;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    text-align: left;
+    border-bottom: 1px solid #e5e1f8;
 }
 
-.menu-table td{
-padding:13px 16px;
-font-size:13px;
-color:#1f1a2e;
-border-bottom:1px solid #f3f0fb;
-vertical-align:middle;
+.menu-table td {
+    padding: 13px 16px;
+    font-size: 13px;
+    color: #1f1a2e;
+    border-bottom: 1px solid #f3f0fb;
+    vertical-align: middle;
 }
 
-.menu-table tbody tr:last-child td{
-border-bottom:none;
+.menu-table tbody tr:last-child td {
+    border-bottom: none;
 }
 
-.menu-table tbody tr:hover td{
-background:#faf9ff;
+.menu-table tbody tr:hover td {
+    background: #faf9ff;
 }
 
 /* STATUS BADGE */
-.badge-pending{
-background:#fff3cd;
-color:#856404;
-padding:4px 10px;
-border-radius:20px;
-font-size:11px;
-font-weight:600;
+.badge-pending {
+    background: #fff3cd;
+    color: #856404;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
 }
 
-.badge-paid{
-background:#d1f7e4;
-color:#0f6e56;
-padding:4px 10px;
-border-radius:20px;
-font-size:11px;
-font-weight:600;
+.badge-paid {
+    background: #d1f7e4;
+    color: #0f6e56;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
 }
 
 /* BUTTON */
-.btn-detail{
-display:inline-flex;
-align-items:center;
-gap:4px;
-font-size:11px;
-font-weight:600;
-padding:5px 11px;
-border-radius:7px;
-border:1px solid #afa9ec;
-background:#eeedfe;
-color:#534ab7;
-text-decoration:none;
+.btn-detail {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 5px 11px;
+    border-radius: 7px;
+    border: 1px solid #afa9ec;
+    background: #eeedfe;
+    color: #534ab7;
+    text-decoration: none;
 }
 
-.btn-detail:hover{
-background:#cecbf6;
-color:#3c3489;
-text-decoration:none;
+.btn-detail:hover {
+    background: #cecbf6;
+    color: #3c3489;
+    text-decoration: none;
 }
 
 /* EMPTY */
-.empty-state{
-text-align:center;
-padding:40px;
-color:#9ca3af;
-font-size:13px;
+.empty-state {
+    text-align: center;
+    padding: 40px;
+    color: #9ca3af;
+    font-size: 13px;
 }
 
 </style>
+
 @endsection
 
 
@@ -173,10 +178,10 @@ font-size:13px;
 
 <div class="page-header">
 
-<h3 class="page-title">
-<span class="page-title-pill"></span>
-Data Transaksi
-</h3>
+    <h3 class="page-title">
+        <span class="page-title-pill"></span>
+        Data Transaksi
+    </h3>
 
 </div>
 
@@ -185,13 +190,17 @@ Data Transaksi
 
 <div class="menu-toolbar">
 
-<div class="search-wrap">
+    <div class="search-wrap">
 
-<i class="mdi mdi-magnify search-icon"></i>
+        <i class="mdi mdi-magnify search-icon"></i>
 
-<input type="text" id="searchTransaksi" placeholder="Cari customer...">
+        <input
+            type="text"
+            id="searchTransaksi"
+            placeholder="Cari customer..."
+        >
 
-</div>
+    </div>
 
 </div>
 
@@ -200,110 +209,98 @@ Data Transaksi
 
 <div class="table-card">
 
-<table class="menu-table" id="transaksiTable">
+    <table class="menu-table" id="transaksiTable">
 
-<thead>
+        <thead>
+            <tr>
+                <th style="width:80px">ID</th>
+                <th>Customer</th>
+                <th>Total</th>
+                <th>Metode</th>
+                <th>Status</th>
+                <th style="text-align:center">Aksi</th>
+            </tr>
+        </thead>
 
-<tr>
+        <tbody>
 
-<th style="width:80px">ID</th>
+            @if ($data && count($data) > 0)
 
-<th>Customer</th>
+                @foreach ($data as $t)
 
-<th>Total</th>
+                    <tr>
 
-<th>Metode</th>
+                        <td style="color:#9ca3af;font-size:12px">
+                            {{ str_pad($t->idpesanan, 3, '0', STR_PAD_LEFT) }}
+                        </td>
 
-<th>Status</th>
+                        <td>
+                            {{ $t->nama_customer }}
+                        </td>
 
-<th style="text-align:center">Aksi</th>
+                        <td>
+                            <strong>
+                                Rp {{ number_format($t->total, 0, ',', '.') }}
+                            </strong>
+                        </td>
 
-</tr>
+                        <td>
+                            {{ $t->metode_bayar }}
+                        </td>
 
-</thead>
+                        <td>
 
-<tbody>
+                            @if ($t->status_bayar == 0)
+                                <span class="badge-pending">
+                                    Pending
+                                </span>
+                            @else
+                                <span class="badge-paid">
+                                    Paid
+                                </span>
+                            @endif
 
-@if($data && count($data) > 0)
+                        </td>
 
-@foreach($data as $t)
+                        <td style="text-align:center">
 
-<tr>
+                            <a
+                                href="{{ route('vendor.transaksi.detail', $t->idpesanan) }}"
+                                class="btn-detail"
+                            >
+                                <i class="mdi mdi-eye"></i> Detail
+                            </a>
 
-<td style="color:#9ca3af;font-size:12px">
-{{ str_pad($t->idpesanan,3,'0',STR_PAD_LEFT) }}
-</td>
+                        </td>
 
-<td>
-{{ $t->nama_customer }}
-</td>
+                    </tr>
 
-<td>
-<strong>
-Rp {{ number_format($t->total,0,',','.') }}
-</strong>
-</td>
+                @endforeach
 
-<td>
-{{ $t->metode_bayar }}
-</td>
+            @else
 
-<td>
+                <tr>
+                    <td colspan="6">
 
-@if($t->status_bayar == 0)
+                        <div class="empty-state">
 
-<span class="badge-pending">
-Pending
-</span>
+                            <i
+                                class="mdi mdi-cart-off"
+                                style="font-size:32px;display:block;margin-bottom:8px;color:#e5e1f8"
+                            ></i>
 
-@else
+                            Tidak ada transaksi
 
-<span class="badge-paid">
-Paid
-</span>
+                        </div>
 
-@endif
+                    </td>
+                </tr>
 
-</td>
+            @endif
 
-<td style="text-align:center">
+        </tbody>
 
-<a href="{{ route('vendor.transaksi.detail',$t->idpesanan) }}"
-class="btn-detail">
-
-<i class="mdi mdi-eye"></i> Detail
-
-</a>
-
-</td>
-
-</tr>
-
-@endforeach
-
-@else
-
-<tr>
-
-<td colspan="6">
-
-<div class="empty-state">
-
-<i class="mdi mdi-cart-off" style="font-size:32px;display:block;margin-bottom:8px;color:#e5e1f8"></i>
-
-Tidak ada transaksi
-
-</div>
-
-</td>
-
-</tr>
-
-@endif
-
-</tbody>
-
-</table>
+    </table>
 
 </div>
 
@@ -315,17 +312,17 @@ Tidak ada transaksi
 
 <script>
 
-document.getElementById('searchTransaksi').addEventListener('input', function(){
+document.getElementById('searchTransaksi').addEventListener('input', function () {
 
-const q = this.value.toLowerCase();
+    const q = this.value.toLowerCase();
 
-document.querySelectorAll('#transaksiTable tbody tr').forEach(row => {
+    document.querySelectorAll('#transaksiTable tbody tr').forEach(row => {
 
-const name = row.querySelector('td:nth-child(2)')?.textContent.toLowerCase() ?? '';
+        const name = row.querySelector('td:nth-child(2)')?.textContent.toLowerCase() ?? '';
 
-row.style.display = name.includes(q) ? '' : 'none';
+        row.style.display = name.includes(q) ? '' : 'none';
 
-});
+    });
 
 });
 

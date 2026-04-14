@@ -1,21 +1,22 @@
 @extends('layouts.admin.app')
 
-@section('title', 'POS Kasir')
+@section('title', 'POS Kasir AXIOS')
 
 @section('content')
 
 <div class="page-header">
-    <h3 class="page-title">Point Of Sales</h3>
+    <h3 class="page-title">Point Of Sales (AXIOS)</h3>
 </div>
 
 <div class="card">
     <div class="card-body">
 
-        <!-- ====================== FORM INPUT - ATAS ====================== -->
+        <!-- ====================== FORM INPUT ====================== -->
         <div class="row g-3 align-items-end mb-4">
 
             <div class="col-md-3">
                 <label class="form-label">Kode Barang</label>
+
                 <select id="kode" class="form-control">
                     <option value="">-- Pilih Barang --</option>
 
@@ -28,7 +29,6 @@
                             {{ $b->id_barang }} - {{ $b->nama }}
                         </option>
                     @endforeach
-
                 </select>
             </div>
 
@@ -75,8 +75,10 @@
 
         </div>
 
-        <!-- ====================== TABEL TRANSAKSI - BAWAH ====================== -->
+
+        <!-- ====================== TABEL ====================== -->
         <div class="table-responsive">
+
             <table class="table table-bordered table-striped align-middle text-center">
                 <thead>
                     <tr>
@@ -90,12 +92,17 @@
                 </thead>
 
                 <tbody id="tableBody"></tbody>
+
             </table>
+
         </div>
+
 
         <hr class="my-3">
 
+
         <div class="d-flex justify-content-between align-items-center">
+
             <button id="btnBayar" class="btn btn-bayar px-5">
                 Bayar
             </button>
@@ -103,12 +110,14 @@
             <h4 class="mb-0">
                 Total : <span id="total">0</span>
             </h4>
+
         </div>
 
     </div>
 </div>
 
 @endsection
+
 
 
 @section('scripts')
@@ -120,110 +129,58 @@
     font-weight: 500;
     color: #475569;
     margin-bottom: 5px;
-    display: block;
 }
 
 .form-control {
-    font-size: 14px;
     border-radius: 8px;
-    border: 1px solid #cbd5e1;
-    padding: 8px 10px;
 }
 
 .form-control[readonly] {
-    background-color: #f1f5f9;
-    color: #94a3b8;
-}
-
-.form-control:focus {
-    border-color: #a78bfa;
-    box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.15);
+    background: #f1f5f9;
 }
 
 #btnTambah {
-    background-color: #a78bfa;
+    background: #a78bfa;
+    color: white;
     border: none;
-    color: #fff;
-    font-weight: 500;
-    font-size: 14px;
-    padding: 9px;
     border-radius: 8px;
-    transition: background 0.2s;
-}
-
-#btnTambah:hover:not(:disabled) {
-    background-color: #7c3aed;
 }
 
 #btnTambah:disabled {
-    background-color: #c4b5fd;
-    cursor: not-allowed;
+    background: #c4b5fd;
 }
 
 .btn-bayar {
-    background-color: #10b981;
+    background: #10b981;
+    color: white;
     border: none;
-    color: #fff;
-    font-weight: 500;
-    font-size: 14px;
-    padding: 9px 32px;
     border-radius: 8px;
-    transition: background 0.2s;
-}
-
-.btn-bayar:hover {
-    background-color: #059669;
-    color: #fff;
-}
-
-.table thead th {
-    background-color: #1e293b;
-    color: #fff;
-    font-weight: 500;
-    font-size: 13px;
-    vertical-align: middle;
-    border-color: #334155;
-}
-
-.table td,
-.table th {
-    vertical-align: middle;
-    font-size: 14px;
-}
-
-.table tbody tr:hover {
-    background-color: #f0fdf4;
 }
 
 .qty {
-    width: 60px !important;
-    margin: auto;
-    text-align: center;
-    font-size: 14px;
-    padding: 4px 6px;
-    border-radius: 6px;
+    color: #000 !important;
+    -webkit-text-fill-color: #000 !important;
+    opacity: 1 !important;
+    background: #fff !important;
+    border: 1px solid #ccc !important;
 }
 
-.btnHapus {
-    font-size: 12px;
-    padding: 4px 10px;
-    border-radius: 6px;
-}
 
 #total {
     color: #059669;
     font-weight: 700;
 }
 
-hr.my-3 {
-    border-color: #e2e8f0;
-}
-
 </style>
 
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
 
 <script>
+
+// PILIH BARANG
 
 $("#kode").change(function () {
 
@@ -252,7 +209,7 @@ $("#kode").change(function () {
 });
 
 
-// Tambah barang ke tabel
+// TAMBAH BARANG
 
 $("#btnTambah").click(function () {
 
@@ -305,10 +262,9 @@ $("#btnTambah").click(function () {
             <td>
                 <input
                     type="number"
-                    class="form-control qty text-center"
+                    class="form-control qty"
                     value="${jumlah}"
                     min="1"
-                    style="width:60px;margin:auto"
                 >
             </td>
             <td class="subtotal text-end">${subtotal}</td>
@@ -330,7 +286,7 @@ $("#btnTambah").click(function () {
 });
 
 
-// Reset form input setelah tambah barang
+// RESET FORM
 
 function resetForm() {
 
@@ -344,7 +300,7 @@ function resetForm() {
 }
 
 
-// Update total harga
+// UPDATE TOTAL
 
 function updateTotal() {
 
@@ -359,7 +315,7 @@ function updateTotal() {
 }
 
 
-/* ====================== EDIT QTY ====================== */
+// UPDATE SUBTOTAL SAAT QTY DIUBAH
 
 $(document).on("change", ".qty", function () {
 
@@ -382,7 +338,7 @@ $(document).on("change", ".qty", function () {
 });
 
 
-//Hapus barang dari tabel
+// HAPUS BARIS
 
 $(document).on("click", ".btnHapus", function () {
 
@@ -393,7 +349,7 @@ $(document).on("click", ".btnHapus", function () {
 });
 
 
-// Proses pembayaran
+// BAYAR
 
 $("#btnBayar").click(function () {
 
@@ -422,35 +378,31 @@ $("#btnBayar").click(function () {
 
     let total = parseInt($("#total").text());
 
-    $.ajax({
-
-        url: "{{ route('bayar') }}",
-        type: "POST",
-
-        data: {
-            _token: "{{ csrf_token() }}",
-            items: items,
-            total: total
-        },
-
-        success: function (response) {
-
-            Swal.fire(
-                "Success",
-                response.message,
-                "success"
-            );
-
-            $("#tableBody").html("");
-            $("#total").text(0);
-
-        },
-
-        error: function () {
-
-            Swal.fire("Error", "Transaksi gagal disimpan", "error");
-
+    axios.post("{{ route('bayar') }}", {
+        items: items,
+        total: total
+    }, {
+        headers: {
+            'X-CSRF-TOKEN': "{{ csrf_token() }}"
         }
+    })
+
+    .then(function (response) {
+
+        Swal.fire(
+            "Success",
+            response.data.message,
+            "success"
+        );
+
+        $("#tableBody").html("");
+        $("#total").text(0);
+
+    })
+
+    .catch(function (error) {
+
+        Swal.fire("Error", "Transaksi gagal", "error");
 
     });
 

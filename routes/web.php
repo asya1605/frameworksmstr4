@@ -19,16 +19,8 @@ use App\Http\Controllers\Vendor\VendorTransaksiController;
 use App\Http\Controllers\OtpController;
 use App\Http\Controllers\Admin\WeekEmpat;
 use App\Http\Controllers\Vendor\VendorDashboardController;
+use App\Http\Controllers\Admin\CustomerController;
 
-
-
-
-
-/*
-|--------------------------------------------------------------------------
-| PUBLIC ROUTES
-|--------------------------------------------------------------------------
-*/
 
 // halaman awal website
 Route::get('/', function () {
@@ -42,42 +34,31 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 Auth::routes();
 
 
-/*
-|--------------------------------------------------------------------------
-| ORDER SYSTEM (Guest & Customer)
-|--------------------------------------------------------------------------
-*/
+// Guest Routes (bisa diakses tanpa login) , bisa login untuk customer (agar bisa melihat riwayat order) 
 Route::get('/order',[OrderController::class,'index']);
 Route::get('/get-menu/{idvendor}',[OrderController::class,'getMenu']);
 Route::post('/checkout',[OrderController::class,'checkout']);
 Route::get('/payment/{id}', [OrderController::class,'payment']);
+Route::get('/order/success/{id}', [OrderController::class,'success']);
 
+Route::middleware(['auth'])->group(function(){
 
-/*
-|--------------------------------------------------------------------------
-| MIDTRANS CALLBACK (WAJIB DI LUAR AUTH)
-|--------------------------------------------------------------------------
-*/
+    Route::get('/order/history',
+        [App\Http\Controllers\Guest\OrderController::class,'history']
+    )->name('order.history');
 
+});
+
+// midtrans callback untuk menerima notifikasi pembayaran dari midtrans
 Route::post('/midtrans/callback',[OrderController::class,'callback']);
 
 
-/*
-|--------------------------------------------------------------------------
-| GOOGLE LOGIN
-|--------------------------------------------------------------------------
-*/
-
+// Google OAuth Routes
 Route::get('/auth/google', [GoogleController::class, 'redirect']);
 Route::get('/auth/google/callback', [GoogleController::class, 'callback']);
 
 
-/*
-|--------------------------------------------------------------------------
-| RESET TEST
-|--------------------------------------------------------------------------
-*/
-
+// Route untuk testing halaman reset password, bisa diakses tanpa login
 Route::get('/reset-test', function () {
     $user = User::first();
 
@@ -88,42 +69,22 @@ Route::get('/reset-test', function () {
 })->name('reset.test');
 
 
-/*
-|--------------------------------------------------------------------------
-| ROUTES YANG PERLU LOGIN
-|--------------------------------------------------------------------------
-*/
-
+// Route yang login dan verifikasi OTP, untuk admin dan vendor
 Route::middleware(['auth'])->group(function () {
 
-    /*
-    |--------------------------------------------------------------------------
-    | OTP
-    |--------------------------------------------------------------------------
-    */
-
+   // Halaman form OTP
     Route::get('/otp', function () {
         return view('auth.otp');
     })->name('otp.form');
 
     Route::post('/otp-verifikasi', [OtpController::class, 'verify'])->name('otp.verify');
 
-    /*
-    |--------------------------------------------------------------------------
-    | ADMIN ROUTES
-    |--------------------------------------------------------------------------
-    */
-
+   //Admin Routes
     Route::middleware(['role:admin'])->group(function () {
 
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-        /*
-        |--------------------------------------------------------------------------
-        | KATEGORI
-        |--------------------------------------------------------------------------
-        */
-
+        // KATEGORI
         Route::get('/kategori', [KategoriController::class, 'index'])->name('kategori.index');
         Route::get('/kategori/create', [KategoriController::class, 'create'])->name('kategori.create');
         Route::post('/kategori/store', [KategoriController::class, 'store'])->name('kategori.store');
@@ -131,13 +92,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/kategori/update/{id}', [KategoriController::class, 'update'])->name('kategori.update');
         Route::get('/kategori/delete/{id}', [KategoriController::class, 'destroy'])->name('kategori.delete');
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | BUKU
-        |--------------------------------------------------------------------------
-        */
-
+        // BUKU
         Route::get('/buku', [BukuController::class, 'index'])->name('buku.index');
         Route::get('/buku/create', [BukuController::class, 'create'])->name('buku.create');
         Route::post('/buku/store', [BukuController::class, 'store'])->name('buku.store');
@@ -145,22 +100,12 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/buku/update/{id}', [BukuController::class, 'update'])->name('buku.update');
         Route::get('/buku/delete/{id}', [BukuController::class, 'delete'])->name('buku.delete');
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | BARANG
-        |--------------------------------------------------------------------------
-        */
-
+        // BARANG
         Route::resource('barang', BarangController::class);
         Route::post('/barang/cetak', [BarangController::class,'cetak'])->name('barang.cetak');
+        Route::get('/admin/barang/cetak', [PdfController::class, 'cetakTag']);
 
-        /*
-        |--------------------------------------------------------------------------
-        | STUDI KASUS
-        |--------------------------------------------------------------------------
-        */
-
+        // Studi Kasus
         Route::get('/studi-kasus2-table', function () {
             return view('admin.barang.studi-kasus2-table');
         });
@@ -169,67 +114,61 @@ Route::middleware(['auth'])->group(function () {
             return view('admin.barang.studi-kasus4');
         })->name('studi.kasus4');
 
+        // Customer
+        Route::get('/customer', [CustomerController::class, 'index'])->name('customer.index');
 
-        /*
-        |--------------------------------------------------------------------------
-        | AJAX WEEK 4
-        |--------------------------------------------------------------------------
-        */
+        Route::get('/customer/create-blob', [CustomerController::class, 'createBlob'])
+            ->name('customer.createBlob');
 
+        Route::post('/customer/store-blob', [CustomerController::class, 'storeBlob'])
+            ->name('customer.storeBlob');
+
+        Route::get('/customer/create-file', [CustomerController::class, 'createFile'])
+            ->name('customer.createFile');
+
+        Route::post('/customer/store-file', [CustomerController::class, 'storeFile'])
+            ->name('customer.storeFile');
+
+        // AJAX
         Route::get('/week4', [WeekEmpat::class, 'index'])->name('week4.index');
         Route::post('/week4/ajax_submit', [WeekEmpat::class, 'submit'])->name('week4.ajax_submit');
 
         Route::get('/wilayah', [WeekEmpat::class, 'wilayah'])->name('wilayah');
+        Route::get('/wilayah-axios', [WeekEmpat::class, 'wilayahAxios'])->name('wilayah.axios');
 
         Route::post('/get-cities', [WeekEmpat::class, 'getCities'])->name('get.cities');
         Route::post('/get-districts', [WeekEmpat::class, 'getDistricts'])->name('get.districts');
         Route::post('/get-villages', [WeekEmpat::class, 'getVillages'])->name('get.villages');
 
         Route::get('/pos', [WeekEmpat::class, 'pos'])->name('pos');
+        Route::get('/pos-axios', [WeekEmpat::class, 'posAxios'])->name('pos.axios');
 
         Route::post('/find-barang', [WeekEmpat::class, 'findBarang'])->name('find.barang');
         Route::post('/search-barang', [WeekEmpat::class,'searchBarang'])->name('search.barang');
         Route::post('/bayar', [WeekEmpat::class, 'bayar'])->name('bayar');
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | PDF DINAMIS
-        |--------------------------------------------------------------------------
-        */
-
+        // PDF Dinamis
         Route::get('/form-sertifikat', [PdfController::class, 'formSertifikat'])->name('form-sertifikat');
         Route::post('/generate-sertifikat', [PdfController::class, 'generateSertifikat'])->name('generate-sertifikat');
 
         Route::get('/form-undangan', [PdfController::class, 'formUndangan'])->name('form-undangan');
         Route::post('/generate-undangan', [PdfController::class, 'generateUndangan'])->name('generate-undangan');
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | PDF STATIS
-        |--------------------------------------------------------------------------
-        */
-
+        // PDF Statis
         Route::get('/sertifikat-statis', [PdfController::class, 'sertifikatStatis'])->name('sertifikat-statis');
         Route::get('/undangan-statis', [PdfController::class, 'undanganStatis'])->name('undangan-statis');
 
     });
 
 
-    /*
-    |--------------------------------------------------------------------------
-    | POS SYSTEM
-    |--------------------------------------------------------------------------
-    */
+    // Vendor Routes
+    Route::middleware(['auth','role:vendor'])->group(function(){
 
-Route::middleware(['auth','role:vendor'])->group(function(){
+        Route::get('/vendor/dashboard',[VendorDashboardController::class,'index'])->name('vendor.dashboard');
+        Route::resource('/menu', MenuController::class);
+        Route::get('/vendor/transaksi',[VendorTransaksiController::class,'index'])->name('vendor.transaksi');
+        Route::get('/vendor/transaksi/{id}',[VendorTransaksiController::class,'detail'])->name('vendor.transaksi.detail');
 
-    Route::get('/vendor/dashboard',[VendorDashboardController::class,'index'])->name('vendor.dashboard');
-    Route::resource('/menu', MenuController::class);
-    Route::get('/vendor/transaksi',[VendorTransaksiController::class,'index'])->name('vendor.transaksi');
-    Route::get('/vendor/transaksi/{id}',[VendorTransaksiController::class,'detail'])->name('vendor.transaksi.detail');
-
-});
+    });
 
 });

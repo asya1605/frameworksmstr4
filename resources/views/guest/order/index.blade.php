@@ -279,10 +279,15 @@
 
 
 <!-- PAGE HEADER -->
-<div class="page-header">
+<div class="page-header" style="display:flex;align-items:center;justify-content:space-between;">
     <h3 class="page-title">Pemesanan Alat Tulis</h3>
+    <a href="{{ url('/') }}"
+       style="background:transparent;color:var(--accent);border:1.5px solid var(--main);border-radius:20px;padding:7px 20px;font-size:0.85rem;font-weight:600;text-decoration:none;transition:background 0.2s,color 0.2s;"
+       onmouseover="this.style.background='var(--accent)';this.style.color='#fff';this.style.borderColor='var(--accent)'"
+       onmouseout="this.style.background='transparent';this.style.color='var(--accent)';this.style.borderColor='var(--main)'">
+        ← Kembali
+    </a>
 </div>
-
 
 <!-- PILIH VENDOR -->
 <div class="order-card">
@@ -464,41 +469,47 @@
 
 
     /* ── CHECKOUT ── */
-    $("#checkout").click(function () {
-        if (cart.length === 0) {
-            alert("Keranjang masih kosong.");
-            return;
-        }
+   $("#checkout").click(function () {
+    if (cart.length === 0) {
+        alert("Keranjang masih kosong.");
+        return;
+    }
 
-        $.ajax({
-            url:  "/checkout",
-            type: "POST",
-            data: {
-                _token: "{{ csrf_token() }}",
-                items:  cart,
-                total:  total
-            },
-            success: function (res) {
-                console.log("Checkout Response:", res);
+    $.ajax({
+        url: "/checkout",
+        type: "POST",
+        data: {
+            _token: "{{ csrf_token() }}",
+            items: cart,
+            total: total
+        },
+        success: function (res) {
 
-                $.get("/payment/" + res.order_id, function (response) {
-                    console.log("Payment Response:", response);
+            const orderId = res.order_id;   // simpan id pesanan
 
-                    snap.pay(response.snap_token, {
-                        onSuccess: function (result) {
-                            alert("Pembayaran berhasil!");
-                            location.reload();
-                        },
-                        onPending: function (result) {
-                            alert("Menunggu pembayaran.");
-                        },
-                        onError: function (result) {
-                            alert("Pembayaran gagal. Coba lagi.");
-                        }
-                    });
+            $.get("/payment/" + orderId, function (response) {
+
+                snap.pay(response.snap_token, {
+
+                    onSuccess: function (result) {
+
+                        window.location = "/order/success/" + orderId;
+
+                    },
+
+                    onPending: function (result) {
+                        alert("Menunggu pembayaran.");
+                    },
+
+                    onError: function (result) {
+                        alert("Pembayaran gagal.");
+                    }
+
                 });
-            }
-        });
+
+            });
+        }
     });
+});
 </script>
 

@@ -73,9 +73,22 @@
     </li>
 
     <li class="nav-item">
+        <a class="nav-link" href="{{ route('wilayah.axios') }}">
+            <span class="menu-title">Wilayah AXIOS</span>
+            <i class="mdi mdi-map-marker menu-icon"></i>
+        </a>
+    </li>
+    <li class="nav-item">
         <a class="nav-link" href="{{ route('pos') }}">
             <span class="menu-title">POS Kasir</span>
             <i class="mdi mdi-cart menu-icon"></i>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('pos.axios') }}">
+            <span class="menu-title">POS AXIOS</span>
+            <i class="mdi mdi-cash-register menu-icon"></i>
         </a>
     </li>
 
@@ -102,6 +115,37 @@
             </a>
         </li>
 
+        {{-- Customer --}}
+    <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="collapse" href="#customerMenu" aria-expanded="false" aria-controls="customerMenu">
+            <span class="menu-title">Customer</span>
+            <i class="mdi mdi-account-group menu-icon"></i>
+        </a>
+
+        <div class="collapse" id="customerMenu">
+            <ul class="nav flex-column sub-menu">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('customer.index') }}">
+                        Data Customer
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('customer.createBlob') }}">
+                        Tambah Customer 1
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('customer.createFile') }}">
+                        Tambah Customer 2
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+    </li>
 <!-- 
         {{-- Dashboard Layouts --}}
         <li class="nav-item">

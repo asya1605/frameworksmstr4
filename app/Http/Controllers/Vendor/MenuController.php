@@ -10,10 +10,12 @@ class MenuController extends Controller
 {
     public function index()
     {
+        //Ambil data vendor berdasarkan user login
         $vendor = DB::table('vendor')
             ->where('iduser', Auth::id())
             ->first();
 
+        //Ambil data menu berdasarkan vendor yang login
         $menu = DB::table('menu')
             ->join('vendor','menu.idvendor','=','vendor.idvendor')
             ->where('menu.idvendor', $vendor->idvendor)
@@ -33,6 +35,7 @@ class MenuController extends Controller
         DB::table('menu')->where('idmenu',$id)->delete();
 
         return redirect()->route('menu.index');
+        //Vendor hanya bisa menghapus menu miliknya sendiri.
     }
 
 
@@ -50,5 +53,6 @@ class MenuController extends Controller
 
         return redirect()->route('menu.index')
             ->with('success','Menu berhasil ditambahkan');
-    }
+        }
+        //id vendor diambil dari user login agar data terhubung dengan vendor yang benar.
 }

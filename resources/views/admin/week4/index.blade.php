@@ -1,6 +1,6 @@
 @extends('layouts.admin.app')
 
-@section('title','AJAX Demo')
+@section('title', 'AJAX Demo')
 
 @section('content')
 
@@ -9,32 +9,40 @@
 </div>
 
 <div class="card">
-<div class="card-body">
+    <div class="card-body">
 
-<div class="row">
+        <div class="row">
 
-<div class="col-md-4">
+            <div class="col-md-4">
 
-<div class="form-group mb-3">
-<label>Name</label>
-<input type="text" id="myIdName" class="form-control">
-</div>
+                <div class="form-group mb-3">
+                    <label>Name</label>
+                    <input
+                        type="text"
+                        id="myIdName"
+                        class="form-control"
+                    >
+                </div>
 
-<div id="subutton">
-<button type="button" class="btn btn-primary" onclick="submitText()">
-Submit
-</button>
-</div>
+                <div id="subutton">
+                    <button
+                        type="button"
+                        class="btn btn-primary"
+                        onclick="submitText()"
+                    >
+                        Submit
+                    </button>
+                </div>
 
-<br>
+                <br>
 
-<div id="freetxt"></div>
+                <div id="freetxt"></div>
 
-</div>
+            </div>
 
-</div>
+        </div>
 
-</div>
+    </div>
 </div>
 
 @endsection
@@ -46,53 +54,61 @@ Submit
 
 <script>
 
-function submitText(){
+function submitText() {
 
-var btn = $("#subutton");
+    var btn = $("#subutton");
 
-btn.html('<button class="btn btn-primary" disabled>Submitting...</button>');
+    btn.html(
+        '<button class="btn btn-primary" disabled>Submitting...</button>'
+    );
 
-var name = $("#myIdName").val();
+    var name = $("#myIdName").val();
 
-$.ajax({
+    $.ajax({
 
-url: "{{ route('week4.ajax_submit') }}",
-type: "POST",
+        url: "{{ route('week4.ajax_submit') }}",
+        type: "POST",
 
-data:{
-_token:"{{ csrf_token() }}",
-name:name
-},
+        data: {
+            _token: "{{ csrf_token() }}",
+            name: name
+        },
 
-success:function(response){
+        success: function (response) {
 
-btn.html('<button class="btn btn-primary" onclick="submitText()">Submit</button>');
+            btn.html(
+                '<button class="btn btn-primary" onclick="submitText()">Submit</button>'
+            );
 
-console.log(response);
+            console.log(response);
 
-$("#freetxt").html("<b>Hello " + response.data.name + "</b>");
+            $("#freetxt").html(
+                "<b>Hello " + response.data.name + "</b>"
+            );
 
-Swal.fire(
-"Success",
-response.message,
-"success"
-);
+            Swal.fire(
+                "Success",
+                response.message,
+                "success"
+            );
 
-},
+        },
 
-error:function(){
+        error: function () {
 
-btn.html('<button class="btn btn-primary" onclick="submitText()">Submit</button>');
+            btn.html(
+                '<button class="btn btn-primary" onclick="submitText()">Submit</button>'
+            );
 
-Swal.fire(
-"Error",
-"There was an error submitting your data.",
-"error"
-);
+            Swal.fire(
+                "Error",
+                "There was an error submitting your data.",
+                "error"
+            );
 
-}
+        }
 
-});
+    });
 
 }
 

@@ -12,46 +12,56 @@
 </div>
 
 <div class="card">
-<div class="card-body">
+    <div class="card-body">
 
-    <div class="form-wrapper">
+        <div class="form-wrapper">
 
-        <form id="formBarang" action="{{ route('barang.store') }}" method="POST">
-        @csrf
+            <form id="formBarang" action="{{ route('barang.store') }}" method="POST">
+                @csrf
 
-            <div class="form-group mb-4">
-                <label class="form-label">Nama Barang</label>
-                <input type="text"
-                       name="nama"
-                       class="form-control"
-                       placeholder="Masukkan nama barang"
-                       required>
-            </div>
-
-            <div class="form-group mb-4">
-                <label class="form-label">Harga</label>
-                <div class="input-prefix-wrapper">
-                    <span class="input-prefix">Rp</span>
-                    <input type="number"
-                           name="harga"
-                           class="form-control with-prefix"
-                           placeholder="0"
-                           min="0"
-                           required>
+                <div class="form-group mb-4">
+                    <label class="form-label">Nama Barang</label>
+                    <input
+                        type="text"
+                        name="nama"
+                        class="form-control"
+                        placeholder="Masukkan nama barang"
+                        required
+                    >
                 </div>
-            </div>
 
-            <div class="form-actions">
-                <button type="button" id="btnSubmit" class="btn-simpan">
-                    Simpan
-                </button>
-            </div>
+                <div class="form-group mb-4">
+                    <label class="form-label">Harga</label>
 
-        </form>
+                    <div class="input-prefix-wrapper">
+                        <span class="input-prefix">Rp</span>
+
+                        <input
+                            type="number"
+                            name="harga"
+                            class="form-control with-prefix"
+                            placeholder="0"
+                            min="0"
+                            required
+                        >
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button
+                        type="button"
+                        id="btnSubmit"
+                        class="btn-simpan"
+                    >
+                        Simpan
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
 
     </div>
-
-</div>
 </div>
 
 @endsection
@@ -61,7 +71,6 @@
 
 <style>
 
-/* === TOMBOL KEMBALI === */
 .btn-kembali {
     font-size: 13px;
     font-weight: 500;
@@ -79,12 +88,10 @@
     color: #1e293b;
 }
 
-/* === FORM WRAPPER === */
 .form-wrapper {
     max-width: 480px;
 }
 
-/* === LABEL === */
 .form-label {
     font-size: 13px;
     font-weight: 500;
@@ -93,7 +100,6 @@
     display: block;
 }
 
-/* === INPUT === */
 .form-control {
     font-size: 14px;
     border-radius: 8px;
@@ -107,11 +113,10 @@
 
 .form-control:focus {
     border-color: #a78bfa;
-    box-shadow: 0 0 0 3px rgba(167,139,250,0.15);
+    box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.15);
     outline: none;
 }
 
-/* === INPUT PREFIX (Rp) === */
 .input-prefix-wrapper {
     display: flex;
     align-items: center;
@@ -124,7 +129,7 @@
 
 .input-prefix-wrapper:focus-within {
     border-color: #a78bfa;
-    box-shadow: 0 0 0 3px rgba(167,139,250,0.15);
+    box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.15);
 }
 
 .input-prefix {
@@ -150,14 +155,12 @@
     outline: none;
 }
 
-/* === FORM ACTIONS === */
 .form-actions {
     display: flex;
     gap: 10px;
     margin-top: 0.5rem;
 }
 
-/* === TOMBOL SIMPAN === */
 .btn-simpan {
     background: #10b981;
     color: #fff;
@@ -186,13 +189,13 @@
 
 <script>
 
-$(document).ready(function(){
+$(document).ready(function () {
 
-    $("#btnSubmit").click(function(){
+    $("#btnSubmit").click(function () {
 
         let form = document.getElementById("formBarang");
 
-        if(!form.checkValidity()){
+        if (!form.checkValidity()) {
             form.reportValidity();
             return;
         }

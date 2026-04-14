@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
 <head>
 <meta charset="utf-8">
@@ -6,40 +6,80 @@
 <style>
 
 @page {
-    size: A4 portrait;
-    margin-top: 12mm;
-    margin-left: 8mm;
-    margin-right: 8mm;
-    margin-bottom: 12mm;
+    size: 210mm 297mm;
+    margin: 0;
 }
 
-body{
-    margin:0;
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 210mm;
+    height: 297mm;
     font-family: Arial, sans-serif;
 }
 
-table{
-    border-collapse: collapse;
+.page {
+    position: relative;
+    width: 210mm;
+    height: 297mm;
 }
 
-td{
-    width:38.18mm;
-    height:22mm;
-    padding:2mm;
-    vertical-align:top;
+.labels-table {
+    position: absolute;
+    top: 3mm;     /* 🔥 offset atas */
+    left: 2mm;    /* 🔥 offset kiri */
+    border-collapse: separate;
+    border-spacing: 3mm 2mm; /* jarak antar label */
 }
 
-.idbarang{
-    font-size:9pt;
+.labels-table td {
+    padding: 0;
+    margin: 0;
 }
 
-.nama{
-    font-size:10pt;
-    font-weight:bold;
+/* ukuran label */
+.label-cell {
+    width: 38mm;
+    height: 18mm;
+    overflow: hidden;
 }
 
-.harga{
-    font-size:10pt;
+/* isi label */
+.label-content {
+    width: 100%;
+    height: 18mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding-left: 2mm;
+}
+
+/* barcode */
+.label-barcode img {
+    width: 75%;
+    max-height: 6mm;
+    margin: 0 auto 1px;
+}
+
+/* text */
+.label-id {
+    font-size: 5pt;
+}
+
+.label-name {
+    font-size: 7pt;
+    font-weight: bold;
+    line-height: 1.1;
+}
+
+.label-price {
+    font-size: 7pt;
+    font-weight: bold;
+}
+
+.page-break {
+    page-break-after: always;
 }
 
 </style>
@@ -47,41 +87,51 @@ td{
 
 <body>
 
-@php
-$total = 40;
-$currentBarang = 0;
-@endphp
+@foreach($pages as $pIndex => $page)
 
-<table>
+<div class="page">
 
-@for($row = 0; $row < 8; $row++)
+<table class="labels-table">
+
+@for ($r = 0; $r < 8; $r++)
 <tr>
 
-@for($col = 0; $col < 5; $col++)
+@for ($c = 0; $c < 5; $c++)
 
 @php
-$index = $row * 5 + $col;
+$slotIndex = $r * 5 + $c;
+$item = $page[$slotIndex] ?? null;
 @endphp
 
 <td>
 
-@if($index >= $startIndex && isset($barang[$currentBarang]))
+<div class="label-cell">
 
-<div class="idbarang">
-{{ $barang[$currentBarang]->id_barang }}
+@if($item)
+
+<div class="label-content">
+
+<div class="label-barcode">
+<img src="data:image/png;base64,{{ $item->barcode }}">
 </div>
 
-<div class="nama">
-{{ $barang[$currentBarang]->nama }}
+<div class="label-id">
+{{ $item->id_barang }}
 </div>
 
-<div class="harga">
-Rp {{ number_format($barang[$currentBarang]->harga,0,',','.') }}
+<div class="label-name">
+{{ $item->nama }}
 </div>
 
-@php $currentBarang++; @endphp
+<div class="label-price">
+Rp {{ number_format($item->harga,0,',','.') }}
+</div>
+
+</div>
 
 @endif
+
+</div>
 
 </td>
 
@@ -91,6 +141,14 @@ Rp {{ number_format($barang[$currentBarang]->harga,0,',','.') }}
 @endfor
 
 </table>
+
+</div>
+
+@if ($pIndex < count($pages) - 1)
+<div class="page-break"></div>
+@endif
+
+@endforeach
 
 </body>
 </html>

@@ -238,6 +238,7 @@ $("#kode").change(function () {
         $("#harga").val(harga);
         $("#jumlah").val(1);
 
+        // Aktifkan tombol tambah
         $("#btnTambah").prop("disabled", false);
 
     } else {
@@ -245,6 +246,7 @@ $("#kode").change(function () {
         $("#nama").val("");
         $("#harga").val("");
 
+        // Nonaktifkan tombol tambah
         $("#btnTambah").prop("disabled", true);
 
     }

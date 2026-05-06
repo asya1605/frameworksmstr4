@@ -244,8 +244,8 @@
 /* ====================== PROVINSI ====================== */
 $('#province').change(function () {
 
-    let province_id = $(this).val();
-    let text = $("#province option:selected").text();
+    let province_id = $(this).val(); //ambil value
+    let text = $("#province option:selected").text(); //ambil text dari option yang dipilih, untuk ditampilkan di hasil
 
     $('#city').html('<option value="">-- Pilih Kota --</option>');
     $('#district').html('<option value="">-- Pilih Kecamatan --</option>');
@@ -290,7 +290,7 @@ $('#province').change(function () {
 $('#city').change(function () {
 
     let city_id = $(this).val();
-    let text = $("#city option:selected").text();
+    let text = $("#city option:selected").text(); 
 
     $('#district').html('<option value="">-- Pilih Kecamatan --</option>');
     $('#village').html('<option value="">-- Pilih Kelurahan --</option>');
@@ -302,16 +302,16 @@ $('#city').change(function () {
 
         setResult('result_city', text, 2);
 
-        $.ajax({
-            url: "{{ route('get.districts') }}",
+        $.ajax({ 
+            url: "{{ route('get.districts') }}", //kirim request ke controller get.districts
             type: "POST",
-            data: {
+            data: { // Kirim data menggunakan POST
                 _token: "{{ csrf_token() }}",
                 city_id: city_id
             },
             success: function (data) {
 
-                $.each(data, function (key, value) {
+                $.each(data, function (key, value) { //loop data 
 
                     $('#district').append(
                         '<option value="' + value.id + '">' + value.name + '</option>'
@@ -333,7 +333,7 @@ $('#city').change(function () {
 $('#district').change(function () {
 
     let district_id = $(this).val();
-    let text = $("#district option:selected").text();
+    let text = $("#district option:selected").text(); // Trigger text untuk hasil
 
     $('#village').html('<option value="">-- Pilih Kelurahan --</option>');
     resetResult('result_village');
@@ -372,7 +372,7 @@ $('#district').change(function () {
 /* ====================== KELURAHAN ====================== */
 $('#village').change(function () {
 
-    let text = $("#village option:selected").text();
+    let text = $("#village option:selected").text(); // Trigger text untuk hasil
 
     if ($(this).val() != "") {
         setResult('result_village', text, 4);

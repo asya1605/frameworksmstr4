@@ -20,6 +20,7 @@ use App\Http\Controllers\OtpController;
 use App\Http\Controllers\Admin\WeekEmpat;
 use App\Http\Controllers\Vendor\VendorDashboardController;
 use App\Http\Controllers\Admin\CustomerController;
+use App\Http\Controllers\Admin\BarcodeScannerController;
 
 
 // halaman awal website
@@ -157,6 +158,10 @@ Route::middleware(['auth'])->group(function () {
         // PDF Statis
         Route::get('/sertifikat-statis', [PdfController::class, 'sertifikatStatis'])->name('sertifikat-statis');
         Route::get('/undangan-statis', [PdfController::class, 'undanganStatis'])->name('undangan-statis');
+
+        // Scanner Barcode
+        Route::get('/scanner-barcode', [BarcodeScannerController::class, 'index'])->name('scanner.barcode');
+        Route::post('/scanner-barcode/get', [BarcodeScannerController::class, 'getBarang'])->name('scanner.barcode.get');
 
     });
 

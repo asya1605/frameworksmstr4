@@ -201,7 +201,7 @@
 $('#province').change(function () {
 
     let province_id = $(this).val();
-    let text = $("#province option:selected").text();
+    let text = $("#province option:selected").text(); // Trigger text untuk hasil
 
     $('#city').html('<option value="">-- Pilih Kota --</option>');
     $('#district').html('<option value="">-- Pilih Kecamatan --</option>');
@@ -256,7 +256,7 @@ $('#province').change(function () {
 $('#city').change(function () {
 
     let city_id = $(this).val();
-    let text = $("#city option:selected").text();
+    let text = $("#city option:selected").text(); // Trigger text untuk hasil
 
     $('#district').html('<option value="">-- Pilih Kecamatan --</option>');
     $('#village').html('<option value="">-- Pilih Kelurahan --</option>');
@@ -309,7 +309,7 @@ $('#city').change(function () {
 $('#district').change(function () {
 
     let district_id = $(this).val();
-    let text = $("#district option:selected").text();
+    let text = $("#district option:selected").text(); // Trigger text untuk hasil
 
     $('#village').html('<option value="">-- Pilih Kelurahan --</option>');
     resetResult('result_village');
@@ -358,7 +358,7 @@ $('#district').change(function () {
 
 $('#village').change(function () {
 
-    let text = $("#village option:selected").text();
+    let text = $("#village option:selected").text(); // Trigger text untuk hasil
 
     if ($(this).val() != "") {
         setResult('result_village', text);

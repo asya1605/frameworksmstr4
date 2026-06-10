@@ -38,5 +38,27 @@
             </a>
         </li>
 
+        {{-- Scanner QR Customer --}}
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('vendor.scanner.qr') }}">
+                <span class="menu-title">Scanner QR Customer</span>
+                <i class="mdi mdi-qrcode-scan menu-icon"></i>
+            </a>
+        </li>
+
+        <li class="nav-item {{ request()->routeIs('vendor.kunjungan.*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('vendor.kunjungan.index') }}">
+                <span class="menu-title">Kunjungan Toko</span>
+                <i class="mdi mdi-map-marker-radius menu-icon"></i>
+            </a>
+        </li>
+
+        <li class="nav-item {{ request()->routeIs('antrian.papan') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('antrian.papan') }}">
+                <span class="menu-title">Papan Antrian</span>
+                <i class="mdi mdi-monitor-dashboard menu-icon"></i>
+            </a>
+        </li>
+
     </ul>
 </nav>

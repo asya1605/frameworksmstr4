@@ -21,6 +21,21 @@ use App\Http\Controllers\Admin\WeekEmpat;
 use App\Http\Controllers\Vendor\VendorDashboardController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\BarcodeScannerController;
+use App\Http\Controllers\Vendor\VendorScannerController;
+use App\Http\Controllers\Admin\TokoController;
+use App\Http\Controllers\AntrianController;
+use App\Http\Controllers\Vendor\KunjunganController;
+use App\Http\Controllers\MahasiswaController;
+use App\Http\Controllers\AbsensiController;
+
+// SSE Antrian
+Route::get('/sse/antrian', [AntrianController::class, 'stream'])->name('antrian.stream');
+
+// Customer Antrian
+Route::get('/antrian', [AntrianController::class, 'customer'])->name('antrian.customer');
+Route::get('/papan-antrian', [AntrianController::class, 'papan'])->name('antrian.papan');
+Route::post('/antrian/store', [AntrianController::class, 'store'])->name('antrian.store');
+
 
 
 // halaman awal website
@@ -163,6 +178,27 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/scanner-barcode', [BarcodeScannerController::class, 'index'])->name('scanner.barcode');
         Route::post('/scanner-barcode/get', [BarcodeScannerController::class, 'getBarang'])->name('scanner.barcode.get');
 
+        // Geolocation Toko
+        Route::get('/toko', [TokoController::class, 'index'])->name('admin.toko.index');
+        Route::get('/toko/create', [TokoController::class, 'create'])->name('admin.toko.create');
+        Route::post('/toko/store', [TokoController::class, 'store'])->name('admin.toko.store');
+        Route::get('/toko/edit/{id}', [TokoController::class, 'edit'])->name('admin.toko.edit');
+        Route::post('/toko/update/{id}', [TokoController::class, 'update'])->name('admin.toko.update');
+        Route::get('/toko/delete/{id}', [TokoController::class, 'destroy'])->name('admin.toko.delete');
+
+        // Antrian Management
+        Route::get('/admin/antrian', [AntrianController::class, 'admin'])->name('antrian.admin');
+        Route::get('/admin/antrian/history', [AntrianController::class, 'historyList'])->name('antrian.history');
+        Route::post('/admin/antrian/panggil/{id}', [AntrianController::class, 'panggil'])->name('antrian.panggil');
+        Route::post('/admin/antrian/recall/{id}', [AntrianController::class, 'recall'])->name('antrian.recall');
+        Route::post('/admin/antrian/selesai/{id}', [AntrianController::class, 'selesai'])->name('antrian.selesai');
+        Route::post('/admin/antrian/terlambat/{id}', [AntrianController::class, 'terlambat'])->name('antrian.terlambat');
+
+        // NFC Attendance System
+        Route::resource('mahasiswa', MahasiswaController::class);
+        Route::get('/absensi-nfc', [AbsensiController::class, 'index'])->name('absensi.nfc');
+        Route::post('/absensi-nfc/store', [AbsensiController::class, 'store'])->name('absensi.store');
+
     });
 
 
@@ -173,6 +209,14 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('/menu', MenuController::class);
         Route::get('/vendor/transaksi',[VendorTransaksiController::class,'index'])->name('vendor.transaksi');
         Route::get('/vendor/transaksi/{id}',[VendorTransaksiController::class,'detail'])->name('vendor.transaksi.detail');
+
+        // Scanner QR Customer (Praktikum 2)
+        Route::get('/vendor/scanner-qr', [VendorScannerController::class,'index'])->name('vendor.scanner.qr');
+        Route::post('/vendor/scanner-qr/get', [VendorScannerController::class,'getPesanan'])->name('vendor.scanner.qr.get');
+
+        // Kunjungan Geolocation
+        Route::get('/vendor/kunjungan', [KunjunganController::class, 'index'])->name('vendor.kunjungan.index');
+        Route::post('/vendor/kunjungan/store', [KunjunganController::class, 'store'])->name('vendor.kunjungan.store');
 
     });
 

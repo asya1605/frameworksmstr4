@@ -107,6 +107,42 @@
                 </a>
             </li>
 
+            <li class="nav-item {{ request()->routeIs('admin.toko.*') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('admin.toko.index') }}">
+                    <span class="menu-title">Data Toko</span>
+                    <i class="mdi mdi-store menu-icon"></i>
+                </a>
+            </li>
+
+            <li class="nav-item {{ request()->routeIs('antrian.admin') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('antrian.admin') }}">
+                    <span class="menu-title">Antrian Real-Time</span>
+                    <i class="mdi mdi-account-group menu-icon"></i>
+                </a>
+            </li>
+
+            <li class="nav-item {{ request()->routeIs('mahasiswa.*') || request()->routeIs('absensi.*') ? 'active' : '' }}">
+                <a class="nav-link" data-bs-toggle="collapse" href="#presenceMenu" aria-expanded="false" aria-controls="presenceMenu">
+                    <span class="menu-title">Sistem Kehadiran</span>
+                    <i class="menu-arrow"></i>
+                    <i class="mdi mdi-nfc menu-icon"></i>
+                </a>
+                <div class="collapse {{ request()->routeIs('mahasiswa.*') || request()->routeIs('absensi.*') ? 'show' : '' }}" id="presenceMenu">
+                    <ul class="nav flex-column sub-menu">
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('mahasiswa.*') ? 'active' : '' }}" href="{{ route('mahasiswa.index') }}">
+                                Data Mahasiswa
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('absensi.*') ? 'active' : '' }}" href="{{ route('absensi.nfc') }}">
+                                Scanner Absensi NFC
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
             <li class="nav-item">
                 <a class="nav-link" href="/studi-kasus2-table">
                     <span class="menu-title">Studi Kasus 2</span>

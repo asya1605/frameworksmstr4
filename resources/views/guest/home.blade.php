@@ -208,6 +208,7 @@
 
                 <a href="/home">Home</a>
                 <a href="/order">Order</a>
+                <a href="/antrian">Antrian</a>
 
                 @auth
                     <a href="{{ route('order.history') }}">Riwayat Pesanan</a>
